@@ -7,22 +7,38 @@ function App() {
 
   const [dummyMovies, setDummyMovies] = useState([]);
 
-  const fetchMovies = () => {
-    fetch('https://swapi.dev/api/films/').then((data) => {
-      return data.json();
-    }).then((data) => {
-      const newData = data.results.map((singleData) => {
-        return {
-          id: singleData.episode_id,
-          title: singleData.title,
-          releaseDate: singleData.release_date,
-          openingText: singleData.opening_crawl
-        }
-      }); 
+  // const fetchMovies = () => {
+  //   fetch('https://swapi.dev/api/films/').then((data) => {
+  //     return data.json();
+  //   }).then((data) => {
+  //     const newData = data.results.map((singleData) => {
+  //       return {
+  //         id: singleData.episode_id,
+  //         title: singleData.title,
+  //         releaseDate: singleData.release_date,
+  //         openingText: singleData.opening_crawl
+  //       }
+  //     }); 
       
-      setDummyMovies(() => {
-        return newData;
-      });
+  //     setDummyMovies(() => {
+  //       return newData;
+  //     });
+  //   });
+  // }
+  
+   const fetchMovies = async  () => {
+    let response = await fetch('https://swapi.dev/api/films/');
+    response = await response.json();
+    const newData = response.results.map((singleData) => {
+      return {
+        id: singleData.episode_id,
+        title: singleData.title,
+        releaseDate: singleData.release_date,
+        openingText: singleData.opening_crawl
+      }
+    });
+    setDummyMovies(() => {
+      return newData;
     });
   }
 
