@@ -6,6 +6,7 @@ import './App.css';
 function App() {
 
   const [dummyMovies, setDummyMovies] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   // const fetchMovies = () => {
   //   fetch('https://swapi.dev/api/films/').then((data) => {
@@ -25,8 +26,9 @@ function App() {
   //     });
   //   });
   // }
-  
+
    const fetchMovies = async  () => {
+    setIsLoading(true);
     let response = await fetch('https://swapi.dev/api/films/');
     response = await response.json();
     const newData = response.results.map((singleData) => {
@@ -37,6 +39,7 @@ function App() {
         openingText: singleData.opening_crawl
       }
     });
+    setIsLoading(false);
     setDummyMovies(() => {
       return newData;
     });
@@ -48,7 +51,9 @@ function App() {
         <button onClick={fetchMovies}>Fetch Movies</button>
       </section>
       <section>
-        <MoviesList movies={dummyMovies} />
+        {!isLoading && dummyMovies.length > 0 &&  <MoviesList movies={dummyMovies} />}
+        {!isLoading && dummyMovies.length === 0 && <p>No Movies Found :(</p>}
+        {isLoading && <p>Loading...</p>}
       </section>
     </React.Fragment>
   );
