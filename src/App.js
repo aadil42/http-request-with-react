@@ -47,11 +47,25 @@ function App() {
       });
 
     } catch {
-      // console.log('hehe');
+      // console.log('hehe'); 
       setError(true);
     }
 
     setIsLoading(false);
+  }
+
+  let content = '';
+  if(!isLoading && dummyMovies.length > 0 && !error) {
+    content = <MoviesList movies={dummyMovies} />;
+  }
+  if(!isLoading && error) {
+    content = <p>Network Error</p>;
+  }
+  if(!isLoading && dummyMovies.length === 0 && !error) {
+    content = <p>No Movies Found :(</p>
+  }
+  if(isLoading && !error) {
+    content = <p>Loading...</p>;
   }
 
   return (
@@ -60,11 +74,7 @@ function App() {
         <button onClick={fetchMovies}>Fetch Movies</button>
       </section>
       <section>
-        {!isLoading && dummyMovies.length > 0 && !error &&  <MoviesList movies={dummyMovies} />}
-        {!isLoading && error && <p>Network Error</p>}
-        {!isLoading && dummyMovies.length === 0 && !error && <p>No Movies Found :(</p>}
-        {isLoading && !error && <p>Loading...</p>}
-        
+        {content}
       </section>
     </React.Fragment>
   );
