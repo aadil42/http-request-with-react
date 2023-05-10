@@ -29,10 +29,16 @@ function App() {
 
    const fetchMovies = async  () => {
     setIsLoading(true);
-    let response = await fetch('https://swapi.dev/api/films/');
-
     try {
+      let response = await fetch('https://swapi.dev/api/films/');
+
+      if(!response.ok) {
+        console.log(response.ok);
+        throw new Error('network error');
+      } 
+
       response = await response.json();
+
       const newData = response.results.map((singleData) => {
         return {
           id: singleData.episode_id,
